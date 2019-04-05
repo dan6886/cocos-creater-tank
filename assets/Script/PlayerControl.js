@@ -12,7 +12,12 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        speed:3
+        speed:3,
+        status:0,
+        left_block:0,
+        right_block:0,
+        up_block:0,
+        down_block:0
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -42,15 +47,17 @@ cc.Class({
             case cc.macro.KEY.down:
             case cc.macro.KEY.left:
             case cc.macro.KEY.right:
+                this.status = 1;
                 this.movePlayer(event.keyCode);
                 break;
         }
     },
 
     onKeyUp: function (event) {
+        cc.log('release key:'+event.keyCode);
         switch(event.keyCode) {
             case cc.macro.KEY.up:
-                cc.log('release up key');
+               this.status = 0;
                 break;
         }
     },
@@ -59,22 +66,35 @@ cc.Class({
     movePlayer:function(key){
         switch (key){
             case cc.macro.KEY.up:
+            cc.log(this.up_block);
+            if(this.up_block==0){
                 this.node.y = this.node.y+this.speed;
+            }
             break;
             case cc.macro.KEY.down:
+            if(this.down_block==0){
                 this.node.y = this.node.y-this.speed;
+            }
             break;
             case cc.macro.KEY.left:
+            if(this.left_block==0){
                 this.node.x = this.node.x-this.speed;
+            }
             break;
             case cc.macro.KEY.right:
+            if(this.right_block==0){
                 this.node.x= this.node.x+this.speed;
+            }
             break;
         }
     },
 
     onCollisionEnter: function (other, self) {
         cc.log('on collision enter');
+        var world = self.world;
+
+        var preAabb = world.preAabb;
+cc.log(preAabb);
     },
     /**
      * 当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用,当前节点的碰撞器里面检测，自己节点不管
@@ -91,5 +111,19 @@ cc.Class({
      */
     onCollisionExit: function (other, self) {
         cc.log('on collision exit');
+    },
+    
+    setMoveBlock: function(direction,arg){
+        cc.log('on setMoveBlock'+direction,arg);
+
+        if("up_block" == direction){
+            this.up_block += arg;
+        }else if("down_block"== direction){
+            this.down_block += arg;
+        }else if("left_block"== direction){
+            this.left_block += arg;
+        }else if("right_block"== direction){
+            this.right_block += arg;
+        }
     }
 });
