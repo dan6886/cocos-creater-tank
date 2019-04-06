@@ -43,7 +43,6 @@ cc.Class({
      */
     onCollisionExit: function (other, self) {
         this.node.getParent().getComponent("PlayerControl").setMoveBlock(this.direction,-1);
-
         cc.log('on detector collision exit');
     }
 });

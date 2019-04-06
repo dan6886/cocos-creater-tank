@@ -31,14 +31,46 @@ cc.Class({
             default: null,
             type: cc.SpriteFrame,
           },
-      
-    },
+          sprite2: {
+            default: null,
+            type: cc.SpriteFrame,
+          }
+            },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        // 重要的代码，获取本地纹理
+        this.textture = new cc.Texture2D();
+        this.textture.url = cc.url.raw('resources/tile.png');
+        this.array = new Array();
+        this.array["1"] = new cc.SpriteFrame(this.textture,cc.rect(32,0,16,16));
+        this.array["2"] = new cc.SpriteFrame(this.textture,cc.rect(16,0,16,16));
+
+    },
 
     start () {
+
+     
+        let child = new cc.Node();
+        let child_sp = child.addComponent(cc.Sprite);
+        let spf = new cc.SpriteFrame(this.textture,cc.rect(32,0,16,16));
+        child_sp.spriteFrame = this.array["1"];
+        child.y = 100;
+        this.node.addChild(child);
+
+        
+        let spf2 = this.textture;
+        let child2 = new cc.Node();
+        let child_sp2 = child2.addComponent(cc.Sprite);
+        let sp2 = new cc.SpriteFrame(spf2,cc.rect(16,0,16,16));
+        child_sp2.spriteFrame = this.array["2"];
+        child2.y = 150;
+        this.node.addChild(child2);
+
+
+
+
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
         manager.enabledDebugDraw = true;
@@ -78,6 +110,8 @@ cc.Class({
         let wall_layer = map.getObjectGroup("wall");
         let wall_objects = wall_layer.getObjects();
         cc.log(wall_objects);
+        let asset = map.tmxAsset;
+
         for(var i = 0;i< wall_objects.length;i++){
             let wall_object = wall_objects[i];
             // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
@@ -93,16 +127,17 @@ cc.Class({
             node.group = "wall";
             node.x = v.x+wall_object.width/2;
             node.y = v.y+wall_object.height/2;;
-            var sp = node.addComponent(cc.Sprite);
-            sp.spriteFrame = this.sprite;
+            // var sp = node.addComponent(cc.Sprite);
+            // sp.spriteFrame = this.sprite;
             // node.parent = wall_objects.node;
             var collider = node.addComponent(cc.BoxCollider);
-            cc.log(sp.spriteFrame.getRect().size);
-            collider.size =sp.spriteFrame.getRect().size;
+            // cc.log(sp.spriteFrame.getRect().size);
+            collider.size =new cc.Size(32,32);
             collider.x = 10;
             wall_layer.node.addChild(node);
         }
     },
+
 
     // update (dt) {},
 });
