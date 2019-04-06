@@ -49,8 +49,10 @@ cc.Class({
         // this.textture = new cc.Texture2D();
         // this.textture.url = cc.url.raw('resources/tile.png');
         this.array = new Array();
-        this.array["1"] = new cc.SpriteFrame(this.textture, cc.rect(32, 0, 16, 16));
-        this.array["2"] = new cc.SpriteFrame(this.textture, cc.rect(16, 0, 16, 16));
+        this.array["clay"] = new cc.SpriteFrame(this.textture, cc.rect(0, 0, 16, 16));
+        this.array["iron"] = new cc.SpriteFrame(this.textture, cc.rect(32, 0, 16, 16));
+        this.array["water"] = new cc.SpriteFrame(this.textture, cc.rect(96, 0, 16, 16));
+        this.array["bush"] = new cc.SpriteFrame(this.textture, cc.rect(64, 0, 16, 16));
 
     },
 
@@ -94,29 +96,52 @@ cc.Class({
         let wall_layer = map.getObjectGroup("wall");
         let wall_objects = wall_layer.getObjects();
         cc.log(wall_objects);
-        let asset = map.tmxAsset;
 
-        for (var i = 0; i < wall_objects.length; i++) {
-            let wall_object = wall_objects[i];
+        this.createBlock(wall_objects, wall_layer);
+        // for (var i = 0; i < wall_objects.length; i++) {
+        //     let wall_object = wall_objects[i];
+        //     // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
+        //     // 相对于node 左下角的坐标作为参数，返回世界坐标
+        //     let v2 = wall_layer.node.convertToWorldSpace(cc.v2(wall_object.x, wall_object.y));
+        //     // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
+        //     let v = wall_layer.node.convertToNodeSpaceAR(v2);
+
+        //     cc.log(v.x, v.y);
+        //     let node = new cc.Node();
+        //     node.group = "wall";
+        //     node.x = v.x + wall_object.width / 2;
+        //     node.y = v.y + wall_object.height / 2;;
+        //     var sp = node.addComponent(cc.Sprite);
+        //     sp.spriteFrame = this.array["1"];
+        //     var collider = node.addComponent(cc.BoxCollider);
+        //     cc.log(sp.spriteFrame.getRect().size);
+        //     collider.size = new cc.Size(16, 16);
+        //     wall_layer.node.addChild(node);
+        // }
+    },
+
+    createBlock: function (objects, parent) {
+        for (var i = 0; i < objects.length; i++) {
+            let wall_object = objects[i];
+            let type = wall_object.block_type;
+            cc.log(wall_object.block_type);
             // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
             // 相对于node 左下角的坐标作为参数，返回世界坐标
-            let v2 = wall_layer.node.convertToWorldSpace(cc.v2(wall_object.x, wall_object.y));
+            let v2 = parent.node.convertToWorldSpace(cc.v2(wall_object.x, wall_object.y));
             // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
-            let v = wall_layer.node.convertToNodeSpaceAR(v2);
-
-            cc.log(v.x, v.y);
+            let v = parent.node.convertToNodeSpaceAR(v2);
             let node = new cc.Node();
+            node.name = type;
             node.group = "wall";
             node.x = v.x + wall_object.width / 2;
             node.y = v.y + wall_object.height / 2;;
             var sp = node.addComponent(cc.Sprite);
-            sp.spriteFrame = this.array["1"];
+            sp.spriteFrame = this.array[type];
             var collider = node.addComponent(cc.BoxCollider);
-            cc.log(sp.spriteFrame.getRect().size);
             collider.size = new cc.Size(16, 16);
-            wall_layer.node.addChild(node);
+            parent.node.addChild(node);
         }
-    },
+    }
 
 
     // update (dt) {},

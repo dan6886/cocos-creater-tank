@@ -18,7 +18,9 @@ cc.Class({
         right_block: 0,
         up_block: 0,
         down_block: 0,
-        direction: null
+        direction: {
+            default: "up"
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -30,6 +32,11 @@ cc.Class({
         manager.enabled = true;
         manager.enabledDebugDraw = true;
         manager.enabledDrawBoundingBox = true;
+
+        this.schedule(function () {
+            cc.log("计时器发生子弹");
+            this.node.getComponent("BulletManager").fireBullet("up");
+        }, 0.5);
     },
     onLoad: function () {
         // add key down and key up event
@@ -50,7 +57,7 @@ cc.Class({
             case cc.macro.KEY.right:
                 this.status = 1;
                 this.movePlayer(event.keyCode);
-                this.node.getChildByName("image").getComponent("PlayerImage").handleDirectionCode(event.keyCode);
+                this.direction = this.node.getChildByName("image").getComponent("PlayerImage").handleDirectionCode(event.keyCode);
                 break;
         }
     },

@@ -49,7 +49,7 @@ cc.Class({
                 break;
         }
         this.setImageLookAt(direction);
-
+        return direction;
     },
     setImageLookAt: function (direction) {
         cc.log("dire:" + direction);
