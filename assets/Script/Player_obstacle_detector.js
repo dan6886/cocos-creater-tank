@@ -24,8 +24,6 @@ cc.Class({
     },
     onCollisionEnter: function (other, self) {
         cc.log('detector on collision enter');
-
-
         this.node.getParent().getComponent("PlayerControl").setMoveBlock(this.direction,1);
     },
     /**
@@ -43,9 +41,6 @@ cc.Class({
      */
     onCollisionExit: function (other, self) {
         this.node.getParent().getComponent("PlayerControl").setMoveBlock(this.direction,-1);
-        cc.log('on detector collision exit');
-        cc.log('on detector collision exit');
-        cc.log('on detector collision exit');
         cc.log('on detector collision exit');
     }
 });

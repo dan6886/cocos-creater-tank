@@ -12,21 +12,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
         sprite: {
             default: null,
             type: cc.SpriteFrame,
@@ -45,9 +30,6 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        // 重要的代码，获取本地纹理
-        // this.textture = new cc.Texture2D();
-        // this.textture.url = cc.url.raw('resources/tile.png');
         this.array = new Array();
         this.array["clay"] = new cc.SpriteFrame(this.textture, cc.rect(0, 0, 16, 16));
         this.array["iron"] = new cc.SpriteFrame(this.textture, cc.rect(32, 0, 16, 16));
@@ -96,28 +78,7 @@ cc.Class({
         let wall_layer = map.getObjectGroup("wall");
         let wall_objects = wall_layer.getObjects();
         cc.log(wall_objects);
-
         this.createBlock(wall_objects, wall_layer);
-        // for (var i = 0; i < wall_objects.length; i++) {
-        //     let wall_object = wall_objects[i];
-        //     // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
-        //     // 相对于node 左下角的坐标作为参数，返回世界坐标
-        //     let v2 = wall_layer.node.convertToWorldSpace(cc.v2(wall_object.x, wall_object.y));
-        //     // 传入参数全局坐标，转换为节点以自身锚点为原点的相对坐标
-        //     let v = wall_layer.node.convertToNodeSpaceAR(v2);
-
-        //     cc.log(v.x, v.y);
-        //     let node = new cc.Node();
-        //     node.group = "wall";
-        //     node.x = v.x + wall_object.width / 2;
-        //     node.y = v.y + wall_object.height / 2;;
-        //     var sp = node.addComponent(cc.Sprite);
-        //     sp.spriteFrame = this.array["1"];
-        //     var collider = node.addComponent(cc.BoxCollider);
-        //     cc.log(sp.spriteFrame.getRect().size);
-        //     collider.size = new cc.Size(16, 16);
-        //     wall_layer.node.addChild(node);
-        // }
     },
 
     createBlock: function (objects, parent) {

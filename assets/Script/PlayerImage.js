@@ -12,6 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        // 这里可以预置一个图片texture2D，很激动
         playerTexture2D: {
             default: null,
             type: cc.Texture2D,
