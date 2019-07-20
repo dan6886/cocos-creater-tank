@@ -61,7 +61,6 @@ cc.Class({
         let world_pos = layer.node.convertToWorldSpace(cc.v2(0, 0));
         cc.log(world_pos);
         // 设置新的图块，这里注意 creater里面的c_gid和editor 里面的e_gid;c_gid==e_gid+1
-        layer.setTileGIDAt(0, 5, 5)
         // 读取layer层对应的属性
         let layyer_name = layer.getProperty("name");
         cc.log(layyer_name)

@@ -56,9 +56,24 @@ cc.Class({
         this.node.parent = parent;
         this.node.position = startpostition.add(this.pointOffset[this.direction]);
         this.node.getComponent(cc.Sprite).spriteFrame = this.array[this.direction];
+
+        switch(direction){
+            case "up":
+            case "down":
+                this.node.getComponent(cc.BoxCollider).size =new cc.size(16, 8);
+                cc.log("上下");
+                break;
+            case "left":
+            case "right":
+                this.node.getComponent(cc.BoxCollider).size = new cc.size(8, 16);
+                cc.log("左右");
+                break;    
+        }
     },
     fire: function () {
         cc.log("fire:" + this.direction);
+        let size1 = this.node.getComponent(cc.BoxCollider)
+        // cc.log(size1)
         this.active = true;
     },
     update(dt) {
